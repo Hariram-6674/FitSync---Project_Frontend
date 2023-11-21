@@ -3,6 +3,7 @@ import List from "./List";
 import Axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import authUtils from "./authUtils";
 
 const Form = () => {
   const [name, setName] = useState("");
@@ -19,15 +20,28 @@ const Form = () => {
       return;
     }
 
-    const user = window.localStorage.getItem("userID"); 
+    const user = authUtils.getUserID(); // Retrieve the user ID only when needed
 
     if (!user) {
       console.log("User is not authenticated. Cannot add food entry.");
       return;
     }
 
-    setUserID(user); 
+    setUserID(user); // Set the userID in the component's state
+
+    // Convert the date to UTC
+    // const utcDate = new Date(newdate);
+    // const istDate = new Date(utcDate.getTime() + 5.5 * 60 * 60 * 1000);
+    // const istDateString = istDate.toISOString();
+
+    // newdate.setTime(
+    //   newdate.getTime() - new Date().getTimezoneOffset() * 60 * 1000
+    // );
+
+    // var myDate = new Date(newdate).toISOString();
+
     if (selectedItem) {
+      // If an item is selected, it's an update
       Axios.put(
         `https://fitsync-backend.onrender.com/api/updateExercise/${selectedItem._id}`,
         {
@@ -40,6 +54,7 @@ const Form = () => {
       )
         .then((response) => {
           console.log(response);
+          // Clearing the form and reset selected item
           setName("");
           setAmount(0);
           setSelectedItem(null);
@@ -48,6 +63,7 @@ const Form = () => {
           console.log(err);
         });
     } else {
+      // If no item is selected, it's an add
       Axios.post("https://fitsync-backend.onrender.com/api/addExercise", {
         userID: user,
         name: name,
@@ -74,7 +90,7 @@ const Form = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [selectedItem]);
+  }, [selectedItem]); // dependency array
 
   const deleteCalorie = (id) => {
     Axios.delete(`https://fitsync-backend.onrender.com/api/addExercise/${id}`).then(() => {
@@ -92,7 +108,7 @@ const Form = () => {
               type="text"
               onChange={(e) => setName(e.target.value)}
               placeholder="Exercise name"
-              value={name} 
+              value={name} //Bind
               className="mt-1 block w-full py-2 px-3 border border-gray-200 bg-white rounded-md focus:outline-none focus:ring-indigo-500 sm:text-sm"
             />
           </div>
