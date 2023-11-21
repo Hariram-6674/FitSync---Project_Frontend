@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  ResponsiveContainer,
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  Tooltip,
-} from "recharts";
+import {ResponsiveContainer,AreaChart,Area,XAxis,YAxis,Tooltip} from "recharts";
 import Label from "./Label";
 import Axios from "axios";
 
@@ -14,7 +7,7 @@ const Test = ({ goal }) => {
   const [totalCal, setTotalcal] = useState(0);
 
   useEffect(() => {
-    Axios.get("http://localhost:4000/api/addCalorie")
+    Axios.get("https://fitsync-backend.onrender.com/api/addCalorie")
       .then((response) => {
         const data = response.data;
         let sum = 0;

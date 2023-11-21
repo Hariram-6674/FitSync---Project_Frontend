@@ -14,7 +14,7 @@ function AllCharts() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/details")
+      .get("https://fitsync-backend.onrender.com/details")
       .then(({ data }) => {
         setDetails(data);
       })

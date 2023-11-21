@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import WeightChart from "./charts/WeightChart";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 function IdealWeightCalculator() {
   const [gender, setGender] = useState("male");
@@ -13,9 +14,22 @@ function IdealWeightCalculator() {
 
   const user = window.localStorage.getItem("userID");
 
+  const notify = (text) => {
+    toast(`${text}`, {
+      position: "top-center",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/details/retrieve/${user}`)
+      .get(`https://fitsync-backend.onrender.com/details/retrieve/${user}`)
       .then(({ data }) => {
         setDetails(data);
       })
@@ -36,8 +50,7 @@ function IdealWeightCalculator() {
         setIsVisible(true);
       }
     } else {
-      // Handle missing inputs (e.g., show an alert)
-      alert("Please fill in all the fields");
+      notify("❌ Please fill in all the fields");
     }
   };
 
@@ -50,7 +63,7 @@ function IdealWeightCalculator() {
       updated_data.push(idealWeight);
       updated_labels.push(currentDate);
 
-      const url_ = "http://localhost:4000/details/updateweightData";
+      const url_ = "https://fitsync-backend.onrender.com/details/updateweightData";
       const obj = { updated_labels, updated_data, user };
       console.log(obj);
       axios
@@ -59,11 +72,11 @@ function IdealWeightCalculator() {
           console.log("success");
           console.log(res.data.message);
           setRefreshUpperBMI((prev) => !prev);
-          alert(res.data.message);
+          notify(`✅ ${res.data.message}`);
         })
         .catch((err) => {
           console.log("error");
-          alert(err);
+          notify(`❌ ${err}`);
         });
     } else {
       alert("Please fill in all the fields and calculate ideal weight");
@@ -79,6 +92,19 @@ function IdealWeightCalculator() {
   }
 
   return (
+    <>
+    <ToastContainer
+        position="bottom-center"
+        autoClose={100}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     <div className="flex justify-between items-center w-[100%] h-screen">
       <div className="flex bg-white items-center m-0 p-0 justify-center w-[90%]">
         <div className="w-[60%] bg-white p-5 border-r-[#ccc] border-r border-solid">
@@ -172,6 +198,7 @@ function IdealWeightCalculator() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

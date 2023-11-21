@@ -1,16 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {
-  Area,
-  AreaChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Dot,
-} from "recharts";
-import { subDays, format, formatDistanceToNow, addDays } from "date-fns";
+import {Area,AreaChart,ResponsiveContainer,Tooltip,XAxis,YAxis,CartesianGrid} from "recharts";
+import {  format } from "date-fns";
 
 function WeightChart(props) {
   const [details, setDetails] = useState({});
@@ -21,7 +12,7 @@ function WeightChart(props) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/details/retrieve/${user}`)
+      .get(`https://fitsync-backend.onrender.com/details/retrieve/${user}`)
       .then(({ data }) => {
         setDetails(data);
       })
@@ -34,8 +25,6 @@ function WeightChart(props) {
     if (details && details.weight_label && details.weight_data) {
       setWeight_labels(details.weight_label);
       setWeight_data(details.weight_data);
-      // console.log(weight_labels);
-      // console.log(weight_data);
     }
   }, [details]);
 
@@ -90,61 +79,8 @@ function WeightChart(props) {
           <CartesianGrid />
         </AreaChart>
       </ResponsiveContainer>
-      {/* <img src={chartUrl} alt="BMI Chart" />; */}
     </div>
   );
 }
 
 export default WeightChart;
-
-// const final_weight_labels = weight_labels.map((date) => {
-//   const [day, month] = date.split("/");
-//   return `${day}/${month}`;
-// });
-
-// const chartData = encodeURIComponent(
-//   JSON.stringify({
-//     type: "line",
-//     data: {
-//       labels: final_weight_labels,
-//       datasets: [
-//         {
-//           backgroundColor: "rgba(149, 189, 242, 0.534)",
-//           borderColor: "rgb(255, 99, 132)",
-//           data: weight_data,
-//           label: "Body weight",
-//           fill: "start",
-//         },
-//       ],
-//     },
-//     options: {
-//       title: {
-//         text: "Body Weight History",
-//         display: true,
-//       },
-//       scales: {
-//         xAxes: [
-//           {
-//             scaleLabel: {
-//               display: true,
-//               labelString: "Date",
-//             },
-//           },
-//         ],
-//         yAxes: [
-//           {
-//             stacked: true,
-//             scaleLabel: {
-//               display: true,
-//               labelString: "Value",
-//             },
-//           },
-//         ],
-//       },
-//     },
-//   })
-// );
-
-// const chartUrl = `https://quickchart.io/chart?c=${chartData}`;
-
-// return <img src={chartUrl} alt="Body Weight Chart" />;

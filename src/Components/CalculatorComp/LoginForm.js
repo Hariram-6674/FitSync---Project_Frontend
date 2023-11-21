@@ -29,7 +29,7 @@ const LoginForm = () => {
   let handlesubmit = (event) => {
     const obj = { email, password };
     console.log(obj);
-    const url_ = "http://localhost:4000/details/login";
+    const url_ = "https://fitsync-backend.onrender.com/details/login";
     console.log(url_);
     axios
       .post(url_, obj)

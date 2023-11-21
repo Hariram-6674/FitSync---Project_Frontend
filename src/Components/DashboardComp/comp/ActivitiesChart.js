@@ -1,16 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {
-  Radar,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  ResponsiveContainer,
-  Tooltip,
-  Legend,
-  Label,
-} from "recharts";
+import {Radar,RadarChart,PolarGrid,PolarAngleAxis,PolarRadiusAxis,ResponsiveContainer,Tooltip,Legend,Label} from "recharts";
 import { subMonths, format } from "date-fns";
 
 function ActivitiesRadarChart() {
@@ -20,7 +10,7 @@ function ActivitiesRadarChart() {
 
     if (userID) {
       axios
-        .get(`http://localhost:4000/api/addExercise?userID=${userID}`)
+        .get(`https://fitsync-backend.onrender.com/api/addExercise?userID=${userID}`)
         .then((response) => {
           const data = response.data;
           setExerciseData(data);

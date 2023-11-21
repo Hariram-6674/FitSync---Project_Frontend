@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { format, parse } from "date-fns";
+import { parse } from "date-fns";
 import CalorieChart from "../comp/CalorieChart";
 import DurationChart from "../comp/DurationChart";
 import ActivitiesChart from "../comp/ActivitiesChart";
@@ -30,7 +30,7 @@ function Dashboard() {
     const userID = window.localStorage.getItem("userID");
 
     axios
-      .get(`http://localhost:4000/details/retrieve_data/${userID}`)
+      .get(`https://fitsync-backend.onrender.com/details/retrieve_data/${userID}`)
       .then(({ data }) => {
         setUserData(data);
       })
@@ -39,7 +39,7 @@ function Dashboard() {
       });
 
     axios
-      .get("http://localhost:4000/api/addExercise")
+      .get("https://fitsync-backend.onrender.com/api/addExercise")
       .then(({ data }) => {
         const sevenDaysAgo = new Date();
         sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
@@ -96,7 +96,7 @@ function Dashboard() {
     console.log(user_id);
     try {
       const response = await axios.get(
-        `http://localhost:4000/details/login/${user_id}`
+        `https://fitsync-backend.onrender.com/details/login/${user_id}`
       );
       return capitalizeFirstLetter(response.data.name);
     } catch (error) {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import BodyFatChart from "./charts/BodyFatChart";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 function BodyFat() {
   const [gender, setGender] = useState("male");
@@ -17,9 +18,22 @@ function BodyFat() {
   const [refreshUpperBMI, setRefreshUpperBMI] = useState(false);
   const user = window.localStorage.getItem("userID");
 
+  const notify = (text) => {
+    toast(`${text}`, {
+      position: "top-center",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/details/retrieve/${user}`)
+      .get(`https://fitsync-backend.onrender.com/details/retrieve/${user}`)
       .then(({ data }) => {
         setDetails(data);
       })
@@ -46,7 +60,7 @@ function BodyFat() {
           450;
         // console.log(bodyFat);
         if (bodyFat < 0 || bodyFat > 100) {
-          alert("Invalid Input: Please Check Entered Values");
+          notify("❌ Invalid Input: Please Check Entered Values");
           return;
         }
 
@@ -63,14 +77,14 @@ function BodyFat() {
               0.221 * Math.log10(parseFloat(height))) -
           450;
         if (bodyFat < 0 || bodyFat > 100) {
-          alert("Invalid Input: Please Check Entered Values");
+          notify("❌ Invalid Input: Please Check Entered Values");
           return;
         }
         setFinal(bodyFat.toFixed(2));
         setIsVisible(true);
       }
     } else {
-      alert("Please fill in all required fields to calculate body fat");
+      notify("❌ Please fill in all required fields to calculate body fat");
     }
   };
 
@@ -91,7 +105,7 @@ function BodyFat() {
       updated_data.push(final);
       updated_labels.push(currentDate);
 
-      const url_ = "http://localhost:4000/details/updatefatData";
+      const url_ = "https://fitsync-backend.onrender.com/details/updatefatData";
       const obj = { updated_labels, updated_data, user };
 
       axios
@@ -100,11 +114,11 @@ function BodyFat() {
           console.log("success");
           console.log(res.data.message);
           setRefreshUpperBMI((prev) => !prev);
-          alert(res.data.message);
+          notify(`✅ ${res.data.message}`);
         })
         .catch((err) => {
           console.log("error");
-          alert(err);
+          notify(`❌ ${err}`);
         });
     } else {
       alert(
@@ -123,6 +137,18 @@ function BodyFat() {
 
   return (
     <div class="flex justify-center items-center w-full h-screen">
+      <ToastContainer
+        position="bottom-center"
+        autoClose={100}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="flex bg-white items-center m-0 p-0 justify-center w-[90%]">
         <div className="bg-white w-[60%] p-5 border-r-[#ccc] border-r border-solid">
           <h1
@@ -273,7 +299,7 @@ function BodyFat() {
         <div className="w-[100%] bg-white h-[85%] flex flex-col justify-center items-center">
           <div
             id="bmi-chart"
-            className="w-full flex flex-col w-[95%] justify-between items-center"
+            className="flex flex-col w-[95%] justify-between items-center"
           >
             {/* <BodyFatChart /> */}
             <BodyFatChart refreshUpperBMI={refreshUpperBMI} />

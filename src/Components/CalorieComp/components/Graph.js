@@ -12,7 +12,7 @@ const Graph = ({ goal }) => {
 
   useEffect(() => {
     if (userID) {
-      Axios.get(`http://localhost:4000/api/addCalorie?user_id=${userID}`)
+      Axios.get(`https://fitsync-backend.onrender.com/api/addCalorie?user_id=${userID}`)
         .then((response) => {
           const data = response.data;
           const currentDate = new Date().toDateString();

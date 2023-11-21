@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import { DatePicker } from "rsuite";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -56,9 +55,9 @@ function SignUp() {
     const bmiValue = calculateBMI();
     const obj = { name, email, password, height, weight, dob };
 
-    const url_ = "http://localhost:4000/details/create-user";
+    const url_ = "https://fitsync-backend.onrender.com/details/create-user";
     const checkEmailResponse = await axios.post(
-      "http://localhost:4000/details/check_email",
+      "https://fitsync-backend.onrender.com/details/check_email",
       { email }
     );
 
@@ -90,12 +89,11 @@ function SignUp() {
           weight_label,
         };
 
-        const url_2 = "http://localhost:4000/details/create-user-data";
+        const url_2 = "https://fitsync-backend.onrender.com/details/create-user-data";
 
         return axios.post(url_2, obj2);
       })
       .then((res) => {
-        // alert("User Data Created");
         window.localStorage.setItem("isLoggedIn", true);
 
         const updated_labels = [];
@@ -106,16 +104,12 @@ function SignUp() {
         updated_labels.push(currentDate);
         const user = window.localStorage.getItem("userID");
 
-        const url_ = "http://localhost:4000/details/updateBmiData";
+        const url_ = "https://fitsync-backend.onrender.com/details/updateBmiData";
         const obj = { updated_labels, updated_data, user };
 
         axios
           .post(url_, obj)
           .then((res) => {
-            // console.log("success");
-            // console.log(res.data.message);
-            // alert(res.data.message);
-            // alert(`User Created Successfully`);
           })
           .catch((err) => {
             console.log("error in BMI");

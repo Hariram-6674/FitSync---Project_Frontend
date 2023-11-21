@@ -1,16 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {
-  Bar,
-  BarChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-  Legend,
-  CartesianGrid,
-  Label,
-} from "recharts";
+import {Bar,BarChart,ResponsiveContainer,Tooltip,XAxis,YAxis,CartesianGrid,Label} from "recharts";
 import { subDays, format } from "date-fns";
 
 function DurationChart() {
@@ -20,7 +10,7 @@ function DurationChart() {
   useEffect(() => {
     if (userID) {
       axios
-        .get(`http://localhost:4000/api/addExercise?userID=${userID}`)
+        .get(`https://fitsync-backend.onrender.com/api/addExercise?userID=${userID}`)
         .then((response) => {
           const data = response.data;
           setExerciseData(data);

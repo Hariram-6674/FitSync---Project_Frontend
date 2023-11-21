@@ -1,16 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {
-  Area,
-  AreaChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Dot,
-} from "recharts";
-import { subDays, format, formatDistanceToNow, addDays } from "date-fns";
+import {Area,AreaChart,ResponsiveContainer,Tooltip,XAxis,YAxis,CartesianGrid} from "recharts";
+import { format } from "date-fns";
 
 function BodyFatChart(props) {
   const [details, setDetails] = useState({});
@@ -21,7 +12,7 @@ function BodyFatChart(props) {
   const { refreshUpperBMI } = props;
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/details/retrieve/${user}`)
+      .get(`https://fitsync-backend.onrender.com/details/retrieve/${user}`)
       .then(({ data }) => {
         setDetails(data);
       })
@@ -48,57 +39,6 @@ function BodyFatChart(props) {
     };
   });
 
-  // const final_fat_labels = fat_labels.map((date) => {
-  //   const [day, month] = date.split("/");
-  //   return `${day}/${month}`;
-  // });
-
-  // const chartData = encodeURIComponent(
-  //   JSON.stringify({
-  //     type: "line",
-  //     data: {
-  //       labels: final_fat_labels,
-  //       datasets: [
-  //         {
-  //           backgroundColor: "rgba(147, 216, 132, 0.7)",
-  //           borderColor: "rgb(255, 99, 132)",
-  //           data: fat_data,
-  //           label: "Body Fat",
-  //           fill: "start",
-  //         },
-  //       ],
-  //     },
-  //     options: {
-  //       title: {
-  //         text: "Body Fat History",
-  //         display: true,
-  //       },
-  //       scales: {
-  //         xAxes: [
-  //           {
-  //             scaleLabel: {
-  //               display: true,
-  //               labelString: "Date",
-  //             },
-  //           },
-  //         ],
-  //         yAxes: [
-  //           {
-  //             stacked: true,
-  //             scaleLabel: {
-  //               display: true,
-  //               labelString: "Body Fat (%)",
-  //             },
-  //           },
-  //         ],
-  //       },
-  //     },
-  //   })
-  // );
-
-  // const chartUrl = `https://quickchart.io/chart?c=${chartData}`;
-
-  // return <img src={chartUrl} alt="Body Fat Chart" />;
   return (
     <div style={{ width: "100%", textAlign: "center" }}>
       <h4>FAT GRAPH</h4>
@@ -141,7 +81,6 @@ function BodyFatChart(props) {
           <CartesianGrid />
         </AreaChart>
       </ResponsiveContainer>
-      {/* <img src={chartUrl} alt="BMI Chart" />; */}
     </div>
   );
 }

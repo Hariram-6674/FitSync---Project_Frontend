@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 
 function CalorieCount() {
   const [weight, setWeight] = useState("");
@@ -8,6 +9,19 @@ function CalorieCount() {
   const [gender, setGender] = useState("man");
   const [activityLevel, setActivityLevel] = useState("sedentary");
   const [calories, setCalories] = useState(null);
+
+  const notify = (text) => {
+    toast(`${text}`, {
+      position: "top-center",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
 
   const calculateCalories = () => {
     if (weight && height && age) {
@@ -46,13 +60,24 @@ function CalorieCount() {
       const calculatedCalories = bmr * activityFactor;
       setCalories(calculatedCalories.toFixed(2));
     } else {
-      // Handle missing inputs (e.g., show an alert)
-      alert("Please fill in all the fields to calculate calories");
+      notify("❌ Please fill in all the fields to calculate calories");
     }
   };
 
   return (
     <div className="bg-white-100 min-h-screen flex items-center justify-center">
+      <ToastContainer
+        position="bottom-center"
+        autoClose={100}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="bg-white   p-8 rounded shadow-md w-full sm:w-96">
         <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">
           Calorie Calculator

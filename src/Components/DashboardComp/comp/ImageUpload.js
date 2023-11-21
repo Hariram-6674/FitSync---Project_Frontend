@@ -12,7 +12,7 @@ const ImageUpload= () => {
     const formData = new FormData();
     formData.append("profile",profile);
     formData.append("userID", userID);
-    axios.post("http://localhost:4000/profilePic",formData)
+    axios.post("https://fitsync-backend.onrender.com/profilePic",formData)
     .then((res) => {
       console.log(res);
       window.location.reload();
@@ -21,7 +21,7 @@ const ImageUpload= () => {
   }
 
   useEffect(() => {
-    axios.get(`http://localhost:4000/getPic`)
+    axios.get(`https://fitsync-backend.onrender.com/getPic`)
     .then((res) => {
       const userImage = res.data.find(item => item.user_id === userID);
       if (userImage) {

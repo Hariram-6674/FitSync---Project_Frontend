@@ -9,12 +9,10 @@ const List = ({ calorieList, deleteCalorie, setSelectedItem }) => {
   const user = window.localStorage.getItem("userID");
 
   useEffect(() => {
-    //filtering the calorieList by user_id to get entries for the authenticated user
     const filteredList = calorieList.filter((item) => item.user_id === user);
     setUserCalorieList(filteredList);
   }, [calorieList, user]);
 
-  // fltering items by selected date
   const filteredCalorieList = userCalorieList.filter(
     (item) => new Date(item.date).toDateString() === selectedDate.toDateString()
   );
@@ -55,7 +53,7 @@ const CalorieIntake = ({ category, deleteCalorie, setSelectedItem }) => {
 
   const handleDeleteClick = () => {
     deleteCalorie(category._id);
-    window.location.reload(); //reolad page
+    window.location.reload(); 
   };
 
   return (

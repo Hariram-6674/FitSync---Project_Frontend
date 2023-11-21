@@ -28,7 +28,7 @@ function Contact() {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/details/send-email",
+        "https://fitsync-backend.onrender.com/details/send-email",
         data
       );
 

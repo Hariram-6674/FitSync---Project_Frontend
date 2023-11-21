@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import BMI_lower from "./charts/BMI_lower";
 import BMI_upper from "./charts/BMI_upper";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 function BMIcalc() {
   const [height, setHeight] = useState("");
@@ -11,11 +12,24 @@ function BMIcalc() {
   const [details, setDetails] = useState({});
   const [refreshUpperBMI, setRefreshUpperBMI] = useState(false);
 
+  const notify = (text) => {
+    toast(`${text}`, {
+      position: "top-center",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+
   const user = window.localStorage.getItem("userID");
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/details/retrieve/${user}`)
+      .get(`https://fitsync-backend.onrender.com/details/retrieve/${user}`)
       .then(({ data }) => {
         setDetails(data);
       })
@@ -31,7 +45,7 @@ function BMIcalc() {
       setBMI(bmiValue.toFixed(2));
       setIsVisible(true);
     } else {
-      alert("Please fill in both height and weight to calculate BMI");
+      notify("❌ Please fill in both height and weight to calculate BMI");
     }
   };
 
@@ -44,7 +58,7 @@ function BMIcalc() {
       updated_data.push(bmi);
       updated_labels.push(currentDate);
 
-      const url_ = "http://localhost:4000/details/updateBmiData";
+      const url_ = "https://fitsync-backend.onrender.com/details/updateBmiData";
       const obj = { updated_labels, updated_data, user };
 
       axios
@@ -53,16 +67,14 @@ function BMIcalc() {
           console.log("success");
           console.log(res.data.message);
           setRefreshUpperBMI((prev) => !prev);
-          alert(res.data.message);
+          notify(`✅${res.data.message}`);
         })
         .catch((err) => {
           console.log("error");
           alert(err);
         });
     } else {
-      alert(
-        "Please calculate BMI before saving, and ensure height and weight are filled"
-      );
+      notify("❌ Please calculate BMI before saving, and ensure height and weight are filled");
     }
   };
 
@@ -76,6 +88,18 @@ function BMIcalc() {
 
   return (
     <div className=" flex  items-center w-[100%] h-screen">
+      <ToastContainer
+        position="bottom-center"
+        autoClose={100}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="flex bg-white items-center m-0 p-0 justify-center w-[90%]">
         <div className="bg-white   p-8 rounded  h-[55%] w-{full} sm:w-96">
           <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">

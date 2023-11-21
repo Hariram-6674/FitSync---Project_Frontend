@@ -1,16 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {
-  Area,
-  AreaChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Dot,
-} from "recharts";
-import { subDays, format, formatDistanceToNow, addDays } from "date-fns";
+import {Area,AreaChart,ResponsiveContainer,Tooltip,XAxis,YAxis,CartesianGrid} from "recharts";
+import { format } from "date-fns";
 
 function BMI_upper(props) {
   const [details, setDetails] = useState({});
@@ -22,7 +13,7 @@ function BMI_upper(props) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/details/retrieve/${user}`)
+      .get(`https://fitsync-backend.onrender.com/details/retrieve/${user}`)
       .then(({ data }) => {
         setDetails(data);
       })
@@ -46,11 +37,6 @@ function BMI_upper(props) {
       totalBMI: bmi_data_float[index],
     };
   });
-
-  // console.log("combinedArray");
-  // console.log(combinedArray);
-
-  // console.log("bmi_labels", bmi_labels);
 
   return (
     <div style={{ width: "100%", textAlign: "center" }}>
@@ -94,59 +80,8 @@ function BMI_upper(props) {
           <CartesianGrid />
         </AreaChart>
       </ResponsiveContainer>
-      {/* <img src={chartUrl} alt="BMI Chart" />; */}
     </div>
   );
 }
 
 export default BMI_upper;
-
-// const final_bmi_labels = bmi_labels.map((date) => {
-//   const [day, month] = date.split("/");
-//   return `${day}/${month}`;
-// });
-
-// const chartData = encodeURIComponent(
-//   JSON.stringify({
-//     type: "line",
-//     data: {
-//       labels: final_bmi_labels,
-//       datasets: [
-//         {
-//           backgroundColor: "rgba(255, 99, 132, 0.5)",
-//           borderColor: "rgb(255, 99, 132)",
-//           data: bmi_data,
-//           label: "BMI",
-//           fill: "start",
-//         },
-//       ],
-//     },
-//     options: {
-//       title: {
-//         text: "BMI History",
-//         display: true,
-//       },
-//       scales: {
-//         xAxes: [
-//           {
-//             scaleLabel: {
-//               display: true,
-//               labelString: "Date",
-//             },
-//           },
-//         ],
-//         yAxes: [
-//           {
-//             stacked: true,
-//             scaleLabel: {
-//               display: true,
-//               labelString: "BMI",
-//             },
-//           },
-//         ],
-//       },
-//     },
-//   })
-// );
-
-// const chartUrl = `https://quickchart.io/chart?c=${chartData}`;

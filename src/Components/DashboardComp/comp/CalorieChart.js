@@ -1,16 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {
-  Area,
-  AreaChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-  Legend,
-  Label,
-} from "recharts";
-import { subDays, format, formatDistanceToNow, addDays } from "date-fns";
+import {Area,AreaChart,ResponsiveContainer,Tooltip,XAxis,YAxis,Legend,Label} from "recharts";
+import { subDays, format } from "date-fns";
 
 function CalorieAreaChart() {
   const [calorieData, setCalorieData] = useState([]);
@@ -21,7 +12,7 @@ function CalorieAreaChart() {
 
     if (userID) {
       axios
-        .get(`http://localhost:4000/api/addCalorie?userID=${userID}`)
+        .get(`https://fitsync-backend.onrender.com/api/addCalorie?userID=${userID}`)
         .then((response) => {
           const data = response.data;
           setCalorieData(data);
@@ -31,7 +22,7 @@ function CalorieAreaChart() {
         });
 
       axios
-        .get(`http://localhost:4000/api/addExercise?userID=${userID}`)
+        .get(`https://fitsync-backend.onrender.com/api/addExercise?userID=${userID}`)
         .then((response) => {
           const data = response.data;
           setExerciseData(data);
@@ -42,9 +33,7 @@ function CalorieAreaChart() {
     }
   }, []);
 
-  //total calories consumed by day
   const calculatecaloriesConsumedByDay = () => {
-    //filtering data basd on user_id
     const userCalorieData = calorieData.filter(
       (item) => item.user_id === userID
     );
@@ -66,13 +55,11 @@ function CalorieAreaChart() {
       return format(date, "yyyy-MM-dd");
     });
 
-    //array of objects with the date and total calories
     const chartData = last4Days.map((date) => ({
       date,
       caloriesConsumed: groupedData[date] || 0,
     }));
 
-    //Sort in ascending order
     chartData.sort((a, b) => new Date(a.date) - new Date(b.date));
 
     return chartData;
@@ -92,7 +79,6 @@ function CalorieAreaChart() {
 
   const averageCaloriesPerDay = caloriesConsumedThisWeek / 7;
 
-  //total calories burned by day
   const calculatecaloriesBurnedByDay = () => {
     const userExerciseData = exerciseData.filter(
       (item) => item.user_id === userID
@@ -115,13 +101,11 @@ function CalorieAreaChart() {
       return format(date, "yyyy-MM-dd");
     });
 
-    //array of objects with the date and total calories
     const chartData = last4Days.map((date) => ({
       date,
       caloriesBurned: groupedData[date] || 0,
     }));
 
-    //sort
     chartData.sort((a, b) => new Date(a.date) - new Date(b.date));
 
     return chartData;
@@ -141,9 +125,6 @@ function CalorieAreaChart() {
 
   const averageExercisesPerDay = caloriesBurnedThisWeek / 7;
 
-  // console.log("ChartData1:", chartData1);
-  // console.log("ChartData2:", chartData2);
-
   const chartData = chartData1.map(({ date, caloriesConsumed }) => {
     const correspondingEntry = chartData2.find((entry) => entry.date === date);
 
@@ -156,7 +137,6 @@ function CalorieAreaChart() {
     };
   });
 
-  // console.log("Combined ChartData:", chartData);
 
   return (
     <div className="border rounded shadow-lg p-4">

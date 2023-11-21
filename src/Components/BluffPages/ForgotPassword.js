@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
@@ -37,7 +37,7 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = "http://localhost:4000/details/email/forgot_password";
+    const url = "https://fitsync-backend.onrender.com/details/email/forgot_password";
     try {
       axios.post(url, {
         email: email,

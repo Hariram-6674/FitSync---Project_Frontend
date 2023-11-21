@@ -16,10 +16,9 @@ const UpdateProfile = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/details/retrieve_data/${user}`)
+      .get(`https://fitsync-backend.onrender.com/details/retrieve_data/${user}`)
       .then(({ data }) => {
         setDetails(data);
-        // console.log(data);
       })
       .catch((err) => {
         console.log(err);
@@ -27,7 +26,6 @@ const UpdateProfile = () => {
   }, [user]);
 
   useEffect(() => {
-    // Set state variables with default values from details
     if (details) {
       setName((prevName) => prevName || details.name || "");
       setEmail((prevEmail) => prevEmail || details.email || "");
@@ -63,7 +61,7 @@ const UpdateProfile = () => {
         dob,
       });
       const response = await axios.post(
-        "http://localhost:4000/details/updateUser",
+        "https://fitsync-backend.onrender.com/details/updateUser",
         {
           user,
           name,
@@ -74,8 +72,6 @@ const UpdateProfile = () => {
         }
       );
 
-      //   console.log(response.data);
-      //   alert("Successfully submitted");
       notify();
       setTimeout(() => {
         navigate("/track");
@@ -100,13 +96,6 @@ const UpdateProfile = () => {
         theme="dark"
       />
       <div className="flex items-center py-3 mx-auto md:h-screen lg:py-0">
-        {/* <a
-          href="#"
-          className="flex items-center mt-3 mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
-        >
-          <img className="w-8 h-8 mr-2" src="/fitSync.jpg" alt="logo" />
-          FitSync
-        </a> */}
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight text-center tracking-tight text-gray-900 md:text-2xl dark:text-white">
