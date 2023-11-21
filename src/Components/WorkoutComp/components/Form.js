@@ -74,7 +74,7 @@ const Form = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [selectedItem]); 
+  }, [selectedItem]);
 
   const deleteCalorie = (id) => {
     Axios.delete(`https://fitsync-backend.onrender.com/api/addExercise/${id}`).then(() => {
