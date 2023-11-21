@@ -33,6 +33,7 @@ const Graph = ({ goal }) => {
           );
 
           setExerciseData(filteredData);
+          console.log(filteredData);
         })
         .catch((error) => {
           console.log(error);
