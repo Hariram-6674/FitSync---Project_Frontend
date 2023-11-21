@@ -2,17 +2,20 @@ import React, { useState, useEffect } from "react";
 import "boxicons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import authUtils from "./authUtils";
 
 const List = ({ calorieList, deleteCalorie, setSelectedItem }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [userCalorieList, setUserCalorieList] = useState([]);
-  const user = window.localStorage.getItem("userID");
+  const user = authUtils.getUserID();
 
   useEffect(() => {
+    //filtering the calorieList by user_id to get entries for the authenticated user
     const filteredList = calorieList.filter((item) => item.user_id === user);
     setUserCalorieList(filteredList);
   }, [calorieList, user]);
 
+  // fltering items by selected date
   const filteredCalorieList = userCalorieList.filter(
     (item) => new Date(item.date).toDateString() === selectedDate.toDateString()
   );
@@ -53,7 +56,7 @@ const CalorieIntake = ({ category, deleteCalorie, setSelectedItem }) => {
 
   const handleDeleteClick = () => {
     deleteCalorie(category._id);
-    window.location.reload(); 
+    window.location.reload(); //reolad page
   };
 
   return (
