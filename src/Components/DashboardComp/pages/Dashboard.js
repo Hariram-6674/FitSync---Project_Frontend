@@ -9,6 +9,8 @@ import Typed from "typed.js";
 import BMI_upper from "../../CalculatorComp/charts/BMI_upper";
 import BodyFatChart from "../../CalculatorComp/charts/BodyFatChart";
 import WeightChart from "../../CalculatorComp/charts/WeightChart";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Dashboard() {
   const [user, setUser] = useState("");
@@ -24,6 +26,14 @@ function Dashboard() {
   const [leaderboardData, setLeaderboardData] = useState([]);
 
   useEffect(() => {
+    toast.warning("Try signing out and signing in again if you encounter any problem.", {
+      position: "bottom-center",
+      autoClose: 2000, // Auto-close after 8 seconds
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
     const currentUser = window.localStorage.getItem("name");
     setUser(currentUser);
 
@@ -252,6 +262,17 @@ function Dashboard() {
           </div>
         </div>
       </div>
+            <ToastContainer
+        position="bottom-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }
